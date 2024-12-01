@@ -1,19 +1,29 @@
-const tintColorLight = '#2f95dc';
-const tintColorDark = '#fff';
+export type Theme = {
+  text: string;
+  background: string;
+  card: string;
+  darkAccent: string;
+  mediumAccent: string;
+  lightAccent: string;
+};
 
-export default {
+const defaultTheme: Record<"light" | "dark", Theme> = {
   light: {
-    text: '#000',
-    background: '#fff',
-    tint: tintColorLight,
-    tabIconDefault: '#ccc',
-    tabIconSelected: tintColorLight,
+    text: "#202124",
+    background: "#F1F3F4",
+    card: "#9AA0A6",
+    darkAccent: "#0D652D",
+    mediumAccent: "#34A853",
+    lightAccent: "#CEEAD6",
   },
   dark: {
-    text: '#fff',
-    background: '#000',
-    tint: tintColorDark,
-    tabIconDefault: '#ccc',
-    tabIconSelected: tintColorDark,
+    text: "#F1F3F4",
+    background: "#202124",
+    card: "#9AA0A6",
+    darkAccent: "#0D652D",
+    mediumAccent: "#34A853",
+    lightAccent: "#CEEAD6",
   },
 };
+
+export default defaultTheme;

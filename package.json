@@ -9,7 +9,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
-    "deploy": "gh-pages --nojekyll -d dist",
+    "deploy": "yarn predeploy && gh-pages --nojekyll -d dist",
     "predeploy": "expo export -p web"
   },
   "jest": {

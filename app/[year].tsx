@@ -1,6 +1,6 @@
 import { TextStyle, ViewStyle, ScrollView } from "react-native";
 
-import { useLocalSearchParams } from "expo-router";
+import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
 import { Text, useStyles, View } from "@/components/Themed";
 import STATS_BY_YEAR from "./DATA";
 import StatCard from "@/components/StatCard";
@@ -33,6 +33,12 @@ const styles = (theme: Theme): Styles => ({
 export default function Stats() {
   const { year } = useLocalSearchParams<{ year: string }>();
   const style = useStyles(styles);
+  const router = useRouter();
+  useFocusEffect(() => {
+    if (!Object.keys(STATS_BY_YEAR).includes(year)) {
+      router.replace("/");
+    }
+  });
 
   return (
     <View style={style.page}>
@@ -41,7 +47,7 @@ export default function Stats() {
         contentContainerStyle={{ alignSelf: "center" }}
         style={style.scroll}
       >
-        {STATS_BY_YEAR[year].map((stat) => (
+        {STATS_BY_YEAR[year]?.map((stat) => (
           <StatCard stat={stat} />
         ))}
       </ScrollView>

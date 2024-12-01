@@ -20,9 +20,9 @@ const defaultTheme: Record<"light" | "dark", Theme> = {
     text: "#F1F3F4",
     background: "#202124",
     card: "#9AA0A6",
-    darkAccent: "#0D652D",
+    darkAccent: "#CEEAD6",
     mediumAccent: "#34A853",
-    lightAccent: "#CEEAD6",
+    lightAccent: "#0D652D",
   },
 };
 

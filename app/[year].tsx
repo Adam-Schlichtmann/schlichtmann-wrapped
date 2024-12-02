@@ -7,7 +7,7 @@ import {
   useRouter,
 } from "expo-router";
 import { useStyles, View } from "@/components/Themed";
-import STATS_BY_YEAR from "./DATA";
+import STATS_BY_YEAR, { ALL_STATS } from "../constants/DATA";
 import StatCard from "@/components/StatCard";
 import { Theme } from "@/constants/Colors";
 
@@ -37,9 +37,9 @@ export default function Stats() {
   return (
     <View style={style.page}>
       <FlatList
-        data={STATS_BY_YEAR[year] ?? []}
+        data={ALL_STATS}
         contentContainerStyle={{ alignSelf: "center" }}
-        renderItem={({ item }) => <StatCard stat={item} />}
+        renderItem={({ item }) => <StatCard stat={item} year={year} />}
       />
     </View>
   );

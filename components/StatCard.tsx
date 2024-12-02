@@ -1,7 +1,7 @@
-import { Pressable, StyleSheet, TextStyle, ViewStyle } from "react-native";
+import { Pressable, TextStyle, ViewStyle } from "react-native";
 
-import { Text, useStyles, useThemeColor, View } from "@/components/Themed";
-import { Stat } from "@/app/DATA";
+import { Text, useStyles, useThemeColor } from "@/components/Themed";
+import STATS_BY_YEAR, { StatType } from "@/constants/DATA";
 import { Theme } from "@/constants/Colors";
 import formatNumber from "@/constants/formatNumber";
 
@@ -42,13 +42,14 @@ const styles = (theme: Theme): Styles => ({
   },
 });
 
-type Props = {
-  stat: Stat;
-};
+type Props = { year: string; stat: StatType };
 
-export default ({ stat }: Props) => {
+export default ({ stat, year }: Props) => {
   const style = useStyles(styles);
   const accent = useThemeColor("mediumAccent");
+  const data = STATS_BY_YEAR[year][stat];
+  const total = data.values.reduce((acc, item) => acc + item.value, 0);
+
   return (
     <Pressable
       style={({ hovered }) => [
@@ -58,8 +59,8 @@ export default ({ stat }: Props) => {
         },
       ]}
     >
-      <Text style={style.label}>{stat.label}</Text>
-      <Text style={style.value}>{formatNumber(stat.value)}</Text>
+      <Text style={style.label}>{data.label}</Text>
+      <Text style={style.value}>{formatNumber(total)}</Text>
     </Pressable>
   );
 };

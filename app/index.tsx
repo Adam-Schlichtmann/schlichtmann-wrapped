@@ -1,11 +1,10 @@
-import { TextStyle, ViewStyle, ScrollView, FlatList } from "react-native";
+import { ViewStyle, FlatList } from "react-native";
 import { useRouter } from "expo-router";
 
-import { Text, useStyles, View } from "@/components/Themed";
+import { useStyles, View } from "@/components/Themed";
 import { Theme } from "@/constants/Colors";
 import Button from "@/components/Button";
-
-import STATS_BY_YEAR from "./DATA";
+import STATS_BY_YEAR from "@/constants/DATA";
 
 type Styles = {
   page: ViewStyle;

@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/components/useColorScheme";
+import Footer from "@/components/Footer";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -50,9 +51,20 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name="/" options={{ headerShown: false }} />
-        <Stack.Screen name="[year]" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="index"
+          options={{
+            headerTitleAlign: "center",
+            title: "All Years",
+            headerBackVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="[year]"
+          options={{ headerTitleAlign: "center", headerBackVisible: false }}
+        />
       </Stack>
+      <Footer />
     </ThemeProvider>
   );
 }

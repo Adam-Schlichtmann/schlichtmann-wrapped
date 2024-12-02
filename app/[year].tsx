@@ -1,16 +1,18 @@
-import { TextStyle, ViewStyle, ScrollView } from "react-native";
+import { FlatList, ViewStyle } from "react-native";
 
-import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
-import { Text, useStyles, View } from "@/components/Themed";
+import {
+  useFocusEffect,
+  useLocalSearchParams,
+  useNavigation,
+  useRouter,
+} from "expo-router";
+import { useStyles, View } from "@/components/Themed";
 import STATS_BY_YEAR from "./DATA";
 import StatCard from "@/components/StatCard";
 import { Theme } from "@/constants/Colors";
-import Footer from "@/components/Footer";
 
 type Styles = {
   page: ViewStyle;
-  scroll: ViewStyle;
-  title: TextStyle;
 };
 
 const styles = (theme: Theme): Styles => ({
@@ -18,40 +20,27 @@ const styles = (theme: Theme): Styles => ({
     backgroundColor: theme.background,
     flex: 1,
   },
-  scroll: {
-    backgroundColor: theme.background,
-    flex: 1,
-    paddingBottom: 48,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: "700",
-    margin: 16,
-  },
 });
 
 export default function Stats() {
   const { year } = useLocalSearchParams<{ year: string }>();
   const style = useStyles(styles);
   const router = useRouter();
+  const navigation = useNavigation();
   useFocusEffect(() => {
     if (!Object.keys(STATS_BY_YEAR).includes(year)) {
       router.replace("/");
     }
+    navigation.setOptions({ title: `${year} Stats` });
   });
 
   return (
     <View style={style.page}>
-      <Text style={style.title}>Stats {year}</Text>
-      <ScrollView
+      <FlatList
+        data={STATS_BY_YEAR[year] ?? []}
         contentContainerStyle={{ alignSelf: "center" }}
-        style={style.scroll}
-      >
-        {STATS_BY_YEAR[year]?.map((stat) => (
-          <StatCard stat={stat} />
-        ))}
-      </ScrollView>
-      <Footer />
+        renderItem={({ item }) => <StatCard stat={item} />}
+      />
     </View>
   );
 }

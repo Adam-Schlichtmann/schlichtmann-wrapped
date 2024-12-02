@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, TextStyle, ViewStyle } from "react-native";
 import { Text, useStyles, useThemeColor, View } from "@/components/Themed";
 import { Stat } from "@/app/DATA";
 import { Theme } from "@/constants/Colors";
+import formatNumber from "@/constants/formatNumber";
 
 type Styles = {
   card: ViewStyle;
@@ -17,7 +18,7 @@ const styles = (theme: Theme): Styles => ({
     borderRadius: 16,
     borderWidth: 1,
     elevation: 3,
-    flexGrow: 1,
+    flex: 1,
     margin: 16,
     maxWidth: 400,
     padding: 16,
@@ -58,7 +59,7 @@ export default ({ stat }: Props) => {
       ]}
     >
       <Text style={style.label}>{stat.label}</Text>
-      <Text style={style.value}>{stat.value}</Text>
+      <Text style={style.value}>{formatNumber(stat.value)}</Text>
     </Pressable>
   );
 };

@@ -1,7 +1,7 @@
 {
   "name": "schlichtmann-wrapped",
   "main": "expo-router/entry",
-  "homepage": "https://Adam-schlichtmann.github.io/schlichtmann-wrapped",
+  "homepage": "https://adam-schlichtmann.github.io/schlichtmann-wrapped",
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",

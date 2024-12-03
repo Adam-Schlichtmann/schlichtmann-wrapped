@@ -22,7 +22,7 @@ const styles = (theme: Theme): Styles => ({
   },
 });
 
-export default function Stats() {
+export default function Year() {
   const { year } = useLocalSearchParams<{ year: string }>();
   const style = useStyles(styles);
   const router = useRouter();

@@ -7,21 +7,19 @@ import Button from "@/components/Button";
 import STATS_BY_YEAR from "@/constants/DATA";
 
 type Styles = {
+  listItem: ViewStyle;
   page: ViewStyle;
-  scroll: ViewStyle;
 };
 
 const styles = (theme: Theme): Styles => ({
+  listItem: {
+    paddingVertical: 8,
+  },
   page: {
     alignSelf: "center",
     backgroundColor: theme.background,
     flex: 1,
     paddingVertical: 16,
-  },
-  scroll: {
-    backgroundColor: theme.background,
-    flex: 1,
-    paddingBottom: 48,
   },
 });
 
@@ -35,7 +33,9 @@ export default () => {
       <FlatList
         data={years}
         renderItem={({ item }) => (
-          <Button onPress={() => router.navigate(`/${item}`)} text={item} />
+          <View style={style.listItem}>
+            <Button onPress={() => router.navigate(`/${item}`)} text={item} />
+          </View>
         )}
       />
     </View>

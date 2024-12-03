@@ -77,7 +77,7 @@ export default ({ stat, year }: Props) => {
   const style = useStyles(styles);
   const theme = useTheme();
   const data = STATS_BY_YEAR[year][stat];
-  const prevData = STATS_BY_YEAR[Number.parseInt(year) - 1][stat] ?? {
+  const prevData = STATS_BY_YEAR[Number.parseInt(year) - 1]?.[stat] ?? {
     label: stat,
     values: [],
   };

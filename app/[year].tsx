@@ -11,6 +11,9 @@ import STATS_BY_YEAR, { ALL_STATS } from "../constants/DATA";
 import StatCard from "@/components/StatCard";
 import { Theme } from "@/constants/Colors";
 
+export const generateStaticParams = (): Promise<{ year: string }[]> =>
+  Promise.resolve(Object.keys(STATS_BY_YEAR).map((key) => ({ year: key })));
+
 type Styles = {
   page: ViewStyle;
 };

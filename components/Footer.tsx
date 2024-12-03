@@ -13,6 +13,7 @@ const styles = (theme: Theme): Styles => ({
   content: {
     backgroundColor: theme.darkAccent,
     maxWidth: 800,
+    flex: 1,
   },
   disclaimer: {
     color: theme.lightAccent,

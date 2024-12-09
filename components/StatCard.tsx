@@ -6,6 +6,7 @@ import { Theme } from "@/constants/Colors";
 import formatNumber from "@/constants/formatNumber";
 import { PieChart } from "react-native-gifted-charts";
 import getColorForUser from "@/constants/getColorForUser";
+import { useRouter } from "expo-router";
 
 type Styles = {
   card: ViewStyle;
@@ -89,8 +90,10 @@ export default ({ stat, year }: Props) => {
   const showChart =
     data.values.filter((v) => v.user !== USER_UNKNOWN).length > 0;
 
+  const router = useRouter();
   return (
     <Pressable
+      onPress={() => router.navigate(`/stat/${stat}`)}
       style={({ hovered }) => [
         style.card,
         {

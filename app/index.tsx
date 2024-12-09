@@ -34,7 +34,10 @@ export default () => {
         data={years}
         renderItem={({ item }) => (
           <View style={style.listItem}>
-            <Button onPress={() => router.navigate(`/${item}`)} text={item} />
+            <Button
+              onPress={() => router.navigate(`/year/${item}`)}
+              text={item}
+            />
           </View>
         )}
       />

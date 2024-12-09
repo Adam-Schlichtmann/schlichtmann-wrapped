@@ -7,7 +7,7 @@ import {
   useRouter,
 } from "expo-router";
 import { useStyles, View } from "@/components/Themed";
-import STATS_BY_YEAR, { ALL_STATS } from "../data";
+import STATS_BY_YEAR, { ALL_STATS } from "../../data";
 import StatCard from "@/components/StatCard";
 import { Theme } from "@/constants/Colors";
 
@@ -32,7 +32,7 @@ export default function Year() {
   const navigation = useNavigation();
   useFocusEffect(() => {
     if (!Object.keys(STATS_BY_YEAR).includes(year)) {
-      router.replace("/");
+      router.navigate("/");
     }
     navigation.setOptions({ title: `${year} Stats` });
   });

@@ -60,7 +60,11 @@ function RootLayoutNav() {
           }}
         />
         <Stack.Screen
-          name="[year]"
+          name="year/[year]"
+          options={{ headerTitleAlign: "center", headerBackVisible: false }}
+        />
+        <Stack.Screen
+          name="stat/[stat]"
           options={{ headerTitleAlign: "center", headerBackVisible: false }}
         />
       </Stack>

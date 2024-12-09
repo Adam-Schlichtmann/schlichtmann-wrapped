@@ -35,8 +35,8 @@ export const STATS_2023: Record<StatType, CompleteStat> = {
   [MILES_RAN]: {
     label: MILES_RAN,
     values: [
-      { value: 426.03, user: USER_ADAM },
-      { value: 276.3, user: USER_LEAH },
+      { value: 114.04, user: USER_ADAM },
+      { value: 90.6, user: USER_LEAH },
     ],
   },
   [PHOTOS_TAKEN]: {
@@ -51,8 +51,12 @@ export const STATS_2023: Record<StatType, CompleteStat> = {
     label: STEPS,
     values: [
       {
-        value: 0,
-        user: USER_UNKNOWN,
+        value: 2625939,
+        user: USER_ADAM,
+      },
+      {
+        value: 2615025,
+        user: USER_LEAH,
       },
     ],
   },

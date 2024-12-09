@@ -4,7 +4,7 @@ import { useRouter } from "expo-router";
 import { useStyles, View } from "@/components/Themed";
 import { Theme } from "@/constants/Colors";
 import Button from "@/components/Button";
-import STATS_BY_YEAR from "@/constants/DATA";
+import STATS_BY_YEAR from "@/data";
 
 type Styles = {
   listItem: ViewStyle;

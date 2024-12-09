@@ -7,7 +7,7 @@ import {
   useRouter,
 } from "expo-router";
 import { useStyles, View } from "@/components/Themed";
-import STATS_BY_YEAR, { ALL_STATS } from "../constants/DATA";
+import STATS_BY_YEAR, { ALL_STATS } from "../data";
 import StatCard from "@/components/StatCard";
 import { Theme } from "@/constants/Colors";
 

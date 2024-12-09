@@ -1,5 +1,5 @@
 import { Theme } from "./Colors";
-import { USER_ADAM, USER_AMOS, USER_LEAH, UserType } from "./DATA";
+import { USER_ADAM, USER_AMOS, USER_LEAH, UserType } from "@/data";
 
 export default (user: UserType, theme: Theme): string => {
   switch (user) {

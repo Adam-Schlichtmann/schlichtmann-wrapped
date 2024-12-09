@@ -1,7 +1,7 @@
 import { Pressable, TextStyle, ViewStyle, View } from "react-native";
 
 import { Text, useStyles, useTheme } from "@/components/Themed";
-import STATS_BY_YEAR, { StatType, USER_UNKNOWN } from "@/constants/DATA";
+import STATS_BY_YEAR, { StatType, USER_UNKNOWN } from "@/data";
 import { Theme } from "@/constants/Colors";
 import formatNumber from "@/constants/formatNumber";
 import { PieChart } from "react-native-gifted-charts";
@@ -85,6 +85,7 @@ export default ({ stat, year }: Props) => {
   const prevTotal = prevData.values.reduce((acc, item) => acc + item.value, 0);
   const showDelta =
     !!prevData.values.length && prevTotal !== total && prevTotal > 0;
+
   const showChart =
     data.values.filter((v) => v.user !== USER_UNKNOWN).length > 0;
 
@@ -105,11 +106,10 @@ export default ({ stat, year }: Props) => {
             style={total > prevTotal ? style.deltaTextUp : style.deltaTextDown}
           >
             {total > prevTotal ? "+" : "-"}{" "}
-            {formatNumber(Math.abs(prevTotal - total) / prevTotal)}%
+            {formatNumber((Math.abs(prevTotal - total) / prevTotal) * 100)}%
           </Text>
         )}
       </View>
-
       {showChart && (
         <View style={style.chartContainer}>
           <PieChart

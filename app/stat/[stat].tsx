@@ -10,7 +10,7 @@ import { useStyles, useTheme, View } from "@/components/Themed";
 import STATS_BY_YEAR, { ALL_STATS, StatType } from "../../data";
 import { Theme } from "@/constants/Colors";
 import { BarChart, BarChartPropsType } from "react-native-gifted-charts";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import getColorForUser from "@/constants/getColorForUser";
 import ColorKey from "@/components/ColorKey";
 
@@ -36,12 +36,14 @@ export default function Year() {
   const theme = useTheme();
   const router = useRouter();
   const navigation = useNavigation();
-  useFocusEffect(() => {
-    if (!ALL_STATS.includes(stat as StatType)) {
-      router.navigate("/");
-    }
-    navigation.setOptions({ title: stat });
-  });
+  useFocusEffect(
+    useCallback(() => {
+      if (!ALL_STATS.includes(stat as StatType)) {
+        router.navigate("/");
+      }
+      navigation.setOptions({ title: stat });
+    }, [])
+  );
 
   const data = useMemo<BarChartPropsType["stackData"]>(() => {
     const d: BarChartPropsType["stackData"] = [];
@@ -65,7 +67,7 @@ export default function Year() {
 
   return (
     <View style={style.page}>
-      <BarChart stackData={data} />
+      <BarChart stackData={data} isAnimated />
       <ColorKey />
     </View>
   );

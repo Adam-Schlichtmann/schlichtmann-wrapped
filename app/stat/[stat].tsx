@@ -6,11 +6,13 @@ import {
   useNavigation,
   useRouter,
 } from "expo-router";
-import { useStyles, View } from "@/components/Themed";
+import { useStyles, useTheme, View } from "@/components/Themed";
 import STATS_BY_YEAR, { ALL_STATS, StatType } from "../../data";
 import { Theme } from "@/constants/Colors";
 import { BarChart, BarChartPropsType } from "react-native-gifted-charts";
 import { useMemo } from "react";
+import getColorForUser from "@/constants/getColorForUser";
+import ColorKey from "@/components/ColorKey";
 
 export const generateStaticParams = (): Promise<{ stat: string }[]> =>
   Promise.resolve(ALL_STATS.map((s) => ({ stat: s })));
@@ -31,6 +33,7 @@ const styles = (theme: Theme): Styles => ({
 export default function Year() {
   const { stat } = useLocalSearchParams<{ stat: StatType }>();
   const style = useStyles(styles);
+  const theme = useTheme();
   const router = useRouter();
   const navigation = useNavigation();
   useFocusEffect(() => {
@@ -40,19 +43,21 @@ export default function Year() {
     navigation.setOptions({ title: stat });
   });
 
-  const data = useMemo<BarChartPropsType["data"]>(() => {
-    const d: BarChartPropsType["data"] = [];
+  const data = useMemo<BarChartPropsType["stackData"]>(() => {
+    const d: BarChartPropsType["stackData"] = [];
     for (const year of Object.keys(STATS_BY_YEAR)) {
-      if (year in STATS_BY_YEAR) {
-        if (stat in STATS_BY_YEAR[year]) {
-          d.push({
-            label: year,
-            value: STATS_BY_YEAR[year][stat]!.values.reduce(
-              (acc, item) => acc + item.value,
-              0
-            ),
-          });
-        }
+      if (
+        year in STATS_BY_YEAR &&
+        stat in STATS_BY_YEAR[year] &&
+        STATS_BY_YEAR[year][stat].values.some((v) => v.value > 0)
+      ) {
+        d.push({
+          label: year,
+          stacks: STATS_BY_YEAR[year][stat]!.values.map((item) => ({
+            value: item.value,
+            color: getColorForUser(item.user, theme),
+          })),
+        });
       }
     }
     return d;
@@ -60,7 +65,8 @@ export default function Year() {
 
   return (
     <View style={style.page}>
-      <BarChart data={data} />
+      <BarChart stackData={data} />
+      <ColorKey />
     </View>
   );
 }

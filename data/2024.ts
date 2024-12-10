@@ -13,12 +13,13 @@ import {
   PUZZLES_COMPLETED,
   STEPS,
   BOOKS_READ,
+  USER_AMOS,
 } from "./data.types";
 
 export const STATS_2024: Record<StatType, CompleteStat> = {
   [DIAPERS_CHANGED]: {
     label: DIAPERS_CHANGED,
-    values: [{ value: 1218, user: USER_UNKNOWN }],
+    values: [{ value: 1218, user: USER_AMOS }],
   },
   [GAME_NIGHTS]: {
     label: GAME_NIGHTS,
@@ -31,7 +32,7 @@ export const STATS_2024: Record<StatType, CompleteStat> = {
   [MILES_DRIVEN]: {
     label: MILES_DRIVEN,
     values: [
-      { value: 100, user: USER_ADAM },
+      { value: 6500, user: USER_ADAM },
       { value: 8866, user: USER_LEAH },
     ],
   },

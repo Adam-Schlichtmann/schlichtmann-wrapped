@@ -34,13 +34,20 @@ export const ALL_STATS: StatType[] = [
 export const USER_ADAM = "Adam";
 export const USER_LEAH = "Leah";
 export const USER_AMOS = "Amos";
-export const USER_UNKNOWN = "";
+export const USER_UNKNOWN = "General";
 
 export type UserType =
   | typeof USER_ADAM
   | typeof USER_LEAH
   | typeof USER_AMOS
   | typeof USER_UNKNOWN;
+
+export const ALL_USERS: UserType[] = [
+  USER_ADAM,
+  USER_LEAH,
+  USER_AMOS,
+  USER_UNKNOWN,
+];
 
 export type CompleteStat = {
   label: StatType;

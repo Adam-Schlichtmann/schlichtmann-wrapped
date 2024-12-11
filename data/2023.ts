@@ -68,7 +68,7 @@ export const STATS_2023: Year = {
     },
     [WEDDINGS]: {
       label: WEDDINGS,
-      values: [{ value: 7, user: USER_UNKNOWN }],
+      values: [{ value: 3, user: USER_UNKNOWN }],
     },
   },
 };

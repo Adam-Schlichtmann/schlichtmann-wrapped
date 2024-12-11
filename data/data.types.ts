@@ -1,3 +1,4 @@
+export const BOOKS_READ = "Books Read";
 export const DIAPERS_CHANGED = "Diapers Changed";
 export const GAME_NIGHTS = "Game Nights";
 export const HOLES_GOLFED = "Holes Golfed";
@@ -6,9 +7,10 @@ export const MILES_RAN = "Miles Ran";
 export const PHOTOS_TAKEN = "Photos Taken";
 export const PUZZLES_COMPLETED = "Puzzles Completed";
 export const STEPS = "Steps";
-export const BOOKS_READ = "Books Read";
+export const WEDDINGS = "Weddings";
 
 export type StatType =
+  | typeof BOOKS_READ
   | typeof DIAPERS_CHANGED
   | typeof GAME_NIGHTS
   | typeof HOLES_GOLFED
@@ -17,9 +19,10 @@ export type StatType =
   | typeof PHOTOS_TAKEN
   | typeof PUZZLES_COMPLETED
   | typeof STEPS
-  | typeof BOOKS_READ;
+  | typeof WEDDINGS;
 
 export const ALL_STATS: StatType[] = [
+  BOOKS_READ,
   DIAPERS_CHANGED,
   GAME_NIGHTS,
   HOLES_GOLFED,
@@ -28,7 +31,7 @@ export const ALL_STATS: StatType[] = [
   PHOTOS_TAKEN,
   PUZZLES_COMPLETED,
   STEPS,
-  BOOKS_READ,
+  WEDDINGS,
 ];
 
 export const USER_ADAM = "Adam";
@@ -52,4 +55,9 @@ export const ALL_USERS: UserType[] = [
 export type CompleteStat = {
   label: StatType;
   values: { value: number; user: UserType }[];
+};
+
+export type Year = {
+  letter: string;
+  stats: Record<StatType, CompleteStat>;
 };

@@ -13,6 +13,7 @@ import { BarChart, BarChartPropsType } from "react-native-gifted-charts";
 import { useCallback, useMemo } from "react";
 import getColorForUser from "@/constants/getColorForUser";
 import ColorKey from "@/components/ColorKey";
+import formatNumber from "@/constants/formatNumber";
 
 export const generateStaticParams = (): Promise<{ stat: string }[]> =>
   Promise.resolve(ALL_STATS.map((s) => ({ stat: s })));
@@ -67,7 +68,18 @@ export default function Year() {
 
   return (
     <View style={style.page}>
-      <BarChart stackData={data} isAnimated />
+      <BarChart
+        stackData={data}
+        yAxisLabelContainerStyle={{ marginHorizontal: 4, width: 50 }}
+        formatYLabel={(l) => {
+          const numericLabel = Number(l);
+          if (Number.isNaN(numericLabel)) {
+            return l;
+          }
+          console.log(l, formatNumber(numericLabel));
+          return formatNumber(numericLabel);
+        }}
+      />
       <ColorKey />
     </View>
   );

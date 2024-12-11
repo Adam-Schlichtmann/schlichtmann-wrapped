@@ -91,9 +91,10 @@ export default ({ stat, year }: Props) => {
     data.values.filter((v) => v.user !== USER_UNKNOWN).length > 0;
 
   const router = useRouter();
+  const onPress = () => router.navigate(`/stat/${stat}`);
   return (
     <Pressable
-      onPress={() => router.navigate(`/stat/${stat}`)}
+      onPress={onPress}
       style={({ hovered }) => [
         style.card,
         {

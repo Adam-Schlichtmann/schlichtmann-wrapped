@@ -80,7 +80,10 @@ type Props = {
 export default ({ stat, year }: Props) => {
   const style = useStyles(styles);
   const theme = useTheme();
-  const data = STATS_BY_YEAR[year].stats[stat];
+
+  if (!STATS_BY_YEAR[year] || !STATS_BY_YEAR[year]?.stats[stat]) return null;
+
+  const data = STATS_BY_YEAR[year]?.stats[stat];
   const prevData = STATS_BY_YEAR[Number.parseInt(year) - 1]?.stats[stat] ?? {
     label: stat,
     values: [],

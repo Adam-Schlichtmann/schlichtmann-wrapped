@@ -51,7 +51,7 @@ export default function Year() {
     for (const year of Object.keys(STATS_BY_YEAR)) {
       if (
         year in STATS_BY_YEAR &&
-        stat in STATS_BY_YEAR[year] &&
+        stat in STATS_BY_YEAR[year].stats &&
         STATS_BY_YEAR[year].stats[stat].values.some((v) => v.value > 0)
       ) {
         d.push({
@@ -76,7 +76,6 @@ export default function Year() {
           if (Number.isNaN(numericLabel)) {
             return l;
           }
-          console.log(l, formatNumber(numericLabel));
           return formatNumber(numericLabel);
         }}
       />

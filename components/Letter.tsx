@@ -82,12 +82,14 @@ const Letter = ({ year }: Props) => {
   const mdStyles = useStyles(markdownStyles);
   const [text, setText] = useState("");
   useEffect(() => {
-    fetch(STATS_BY_YEAR[year].letter)
-      .then((f) => f.text())
-      .then((t) => setText(t));
+    if (STATS_BY_YEAR[year]?.letter) {
+      fetch(STATS_BY_YEAR[year].letter)
+        .then((f) => f.text())
+        .then((t) => setText(t));
+    }
   }, []);
 
-  if (STATS_BY_YEAR[year].letter) {
+  if (STATS_BY_YEAR[year]?.letter) {
     return (
       <View style={style.container}>
         <Markdown style={mdStyles}>{text}</Markdown>

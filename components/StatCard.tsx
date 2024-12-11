@@ -25,12 +25,13 @@ const styles = (theme: Theme): Styles => {
   };
   return {
     card: {
+      alignSelf: "center",
       backgroundColor: theme.card,
       borderRadius: 8,
       elevation: 3,
       flex: 1,
       margin: 16,
-      maxWidth: 400,
+      maxWidth: 320,
       padding: 16,
       shadowColor: theme.text,
       shadowOffset: {
@@ -39,8 +40,10 @@ const styles = (theme: Theme): Styles => {
       },
       shadowOpacity: 0.25,
       shadowRadius: 0.4,
+      width: "100%",
     },
     chartContainer: {
+      alignItems: "center",
       padding: 8,
     },
     deltaTextDown: {
@@ -77,8 +80,8 @@ type Props = {
 export default ({ stat, year }: Props) => {
   const style = useStyles(styles);
   const theme = useTheme();
-  const data = STATS_BY_YEAR[year][stat];
-  const prevData = STATS_BY_YEAR[Number.parseInt(year) - 1]?.[stat] ?? {
+  const data = STATS_BY_YEAR[year].stats[stat];
+  const prevData = STATS_BY_YEAR[Number.parseInt(year) - 1]?.stats[stat] ?? {
     label: stat,
     values: [],
   };

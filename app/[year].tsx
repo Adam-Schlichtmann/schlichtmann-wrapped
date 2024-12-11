@@ -11,6 +11,7 @@ import STATS_BY_YEAR, { ALL_STATS } from "../data";
 import StatCard from "@/components/StatCard";
 import { Theme } from "@/constants/Colors";
 import { useCallback } from "react";
+import Letter from "@/components/Letter";
 
 export const generateStaticParams = (): Promise<{ year: string }[]> =>
   Promise.resolve(Object.keys(STATS_BY_YEAR).map((key) => ({ year: key })));
@@ -44,8 +45,9 @@ export default function Year() {
   return (
     <View style={style.page}>
       <FlatList
+        ListHeaderComponent={<Letter year={year} />}
         data={ALL_STATS}
-        contentContainerStyle={{ alignSelf: "center" }}
+        contentContainerStyle={{ alignSelf: "center", paddingHorizontal: 16 }}
         renderItem={({ item }) => <StatCard stat={item} year={year} />}
       />
     </View>

@@ -52,11 +52,11 @@ export default function Year() {
       if (
         year in STATS_BY_YEAR &&
         stat in STATS_BY_YEAR[year] &&
-        STATS_BY_YEAR[year][stat].values.some((v) => v.value > 0)
+        STATS_BY_YEAR[year].stats[stat].values.some((v) => v.value > 0)
       ) {
         d.push({
           label: year,
-          stacks: STATS_BY_YEAR[year][stat]!.values.map((item) => ({
+          stacks: STATS_BY_YEAR[year].stats[stat]!.values.map((item) => ({
             value: item.value,
             color: getColorForUser(item.user, theme),
           })),

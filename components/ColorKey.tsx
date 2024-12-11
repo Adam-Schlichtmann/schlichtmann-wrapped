@@ -35,7 +35,7 @@ export default () => {
   return (
     <View style={style.container}>
       {ALL_USERS.map((item) => (
-        <View style={style.row}>
+        <View style={style.row} key={item}>
           <View
             style={[
               style.colorSwatch,

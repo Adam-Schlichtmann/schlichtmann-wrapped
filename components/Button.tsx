@@ -15,8 +15,8 @@ const styles = (theme: Theme): Styles => ({
     borderRadius: 4,
     borderWidth: 1,
     flex: 1,
-    justifyContent: "center",
-    minWidth: 80,
+    minWidth: 100,
+    maxWidth: 400,
     padding: 8,
   },
   text: {

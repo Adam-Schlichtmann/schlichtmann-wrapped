@@ -1,6 +1,7 @@
 export type Theme = {
   adam: string;
   amos: string;
+  amylynn: string;
   background: string;
   card: string;
   darkAccent: string;
@@ -16,6 +17,7 @@ const defaultTheme: Record<"light" | "dark", Theme> = {
   dark: {
     adam: "#FA8072",
     amos: "#6495ED",
+    amylynn: "#601f9e",
     background: "#202124",
     card: "#9AA0A6",
     darkAccent: "#CEEAD6",
@@ -29,6 +31,7 @@ const defaultTheme: Record<"light" | "dark", Theme> = {
   light: {
     adam: "#FA8072",
     amos: "#6495ED",
+    amylynn: "#601f9e",
     background: "#F1F3F4",
     card: "#ffffff",
     darkAccent: "#0D652D",

@@ -14,7 +14,7 @@ export default (user: UserType, theme: Theme): string => {
     case USER_AMOS:
       return theme.amos;
     case USER_AMYLYNN:
-      theme.amylynn;
+      return theme.amylynn;
     case USER_LEAH:
       return theme.leah;
     default:

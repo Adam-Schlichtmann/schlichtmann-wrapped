@@ -14,6 +14,7 @@ import {
   USER_AMOS,
   Year,
   WEDDINGS,
+  USER_AMYLYNN,
 } from "./data.types";
 
 export const STATS_2025: Year = {
@@ -21,19 +22,25 @@ export const STATS_2025: Year = {
   stats: {
     [BOOKS_READ]: {
       label: BOOKS_READ,
-      values: [],
+      values: [
+        { value: 12, user: USER_ADAM },
+        { value: 22, user: USER_LEAH },
+      ],
     },
     [DIAPERS_CHANGED]: {
       label: DIAPERS_CHANGED,
-      values: [],
+      values: [
+        { value: 1811, user: USER_AMOS },
+        { value: 899, user: USER_AMYLYNN },
+      ],
     },
     [GAME_NIGHTS]: {
       label: GAME_NIGHTS,
-      values: [],
+      values: [{ value: 17, user: USER_UNKNOWN }],
     },
     [HOLES_GOLFED]: {
       label: HOLES_GOLFED,
-      values: [],
+      values: [{ value: 27, user: USER_ADAM }],
     },
     [MILES_DRIVEN]: {
       label: MILES_DRIVEN,
@@ -49,7 +56,7 @@ export const STATS_2025: Year = {
     },
     [PUZZLES_COMPLETED]: {
       label: PUZZLES_COMPLETED,
-      values: [],
+      values: [{ value: 3, user: USER_UNKNOWN }],
     },
     [STEPS]: {
       label: STEPS,
@@ -57,7 +64,7 @@ export const STATS_2025: Year = {
     },
     [WEDDINGS]: {
       label: WEDDINGS,
-      values: [],
+      values: [{ value: 1, user: USER_UNKNOWN }],
     },
   },
 };

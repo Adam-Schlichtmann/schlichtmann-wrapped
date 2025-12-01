@@ -36,7 +36,7 @@ export default () => {
     <View style={style.footer}>
       <View style={style.content}>
         <Text style={style.disclaimer}>
-          Statistics are based on events that occured from January 1st through
+          Statistics are based on events that occurred from January 1st through
           December 1st. Data accuracy is directly proportional to the amount of
           effort put in to keeping track of it. There is no gaurantee of
           accuracy and data is provided as is.

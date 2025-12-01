@@ -44,15 +44,24 @@ export const STATS_2025: Year = {
     },
     [MILES_DRIVEN]: {
       label: MILES_DRIVEN,
-      values: [],
+      values: [
+        { value: 6704, user: USER_ADAM },
+        { value: 8480, user: USER_LEAH },
+      ],
     },
     [MILES_RAN]: {
       label: MILES_RAN,
-      values: [],
+      values: [
+        { value: 87.99, user: USER_ADAM },
+        { value: 174.8, user: USER_LEAH },
+      ],
     },
     [PHOTOS_TAKEN]: {
       label: PHOTOS_TAKEN,
-      values: [],
+      values: [
+        { value: 338, user: USER_ADAM },
+        { value: 886, user: USER_LEAH },
+      ],
     },
     [PUZZLES_COMPLETED]: {
       label: PUZZLES_COMPLETED,
@@ -60,7 +69,10 @@ export const STATS_2025: Year = {
     },
     [STEPS]: {
       label: STEPS,
-      values: [],
+      values: [
+        { value: 2284309, user: USER_ADAM },
+        { value: 2375675, user: USER_LEAH },
+      ],
     },
     [WEDDINGS]: {
       label: WEDDINGS,

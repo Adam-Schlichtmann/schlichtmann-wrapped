@@ -41,7 +41,7 @@ export const STATS_2024: Year = {
     [MILES_DRIVEN]: {
       label: MILES_DRIVEN,
       values: [
-        { value: 6500, user: USER_ADAM },
+        { value: 7093, user: USER_ADAM },
         { value: 8866, user: USER_LEAH },
       ],
     },

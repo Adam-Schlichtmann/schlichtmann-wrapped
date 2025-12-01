@@ -46,21 +46,30 @@ export default function Year() {
     }, [])
   );
 
-  const data = useMemo<BarChartPropsType["stackData"]>(() => {
-    const d: BarChartPropsType["stackData"] = [];
+  const data = useMemo<BarChartPropsType["data"]>(() => {
+    const d: BarChartPropsType["data"] = [];
     for (const year of Object.keys(STATS_BY_YEAR)) {
       if (
         year in STATS_BY_YEAR &&
         stat in STATS_BY_YEAR[year].stats &&
         STATS_BY_YEAR[year].stats[stat].values.some((v) => v.value > 0)
       ) {
-        d.push({
-          label: year,
-          stacks: STATS_BY_YEAR[year].stats[stat]!.values.map((item) => ({
-            value: item.value,
-            color: getColorForUser(item.user, theme),
-          })),
-        });
+        d.push(
+          ...STATS_BY_YEAR[year].stats[stat]!.values.map((item, i, arr) =>
+            i === 0
+              ? {
+                  label: year,
+                  value: item.value,
+                  spacing: arr.length > 1 ? 2 : undefined,
+                  labelWidth: arr.length > 1 ? 60 : undefined,
+                  frontColor: getColorForUser(item.user, theme),
+                }
+              : {
+                  value: item.value,
+                  frontColor: getColorForUser(item.user, theme),
+                }
+          )
+        );
       }
     }
     return d;
@@ -69,7 +78,8 @@ export default function Year() {
   return (
     <View style={style.page}>
       <BarChart
-        stackData={data}
+        data={data}
+        roundedTop
         yAxisLabelContainerStyle={{ marginHorizontal: 4, width: 50 }}
         formatYLabel={(l) => {
           const numericLabel = Number(l);

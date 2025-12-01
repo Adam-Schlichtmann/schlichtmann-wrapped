@@ -116,6 +116,7 @@ export default ({ stat, year }: Props) => {
       {showChart && (
         <View style={style.chartContainer}>
           <PieChart
+            onPress={onPress}
             data={data.values.map((v) => ({
               value: v.value,
               text: v.user,

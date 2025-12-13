@@ -1,20 +1,21 @@
 import {
+  BOOKS_READ,
   DIAPERS_CHANGED,
-  USER_UNKNOWN,
   GAME_NIGHTS,
   HOLES_GOLFED,
-  USER_ADAM,
   MILES_DRIVEN,
-  USER_LEAH,
   MILES_RAN,
   PHOTOS_TAKEN,
   PUZZLES_COMPLETED,
+  SPOTIFY_MINUTES,
   STEPS,
-  BOOKS_READ,
+  USER_ADAM,
   USER_AMOS,
-  Year,
-  WEDDINGS,
   USER_AMYLYNN,
+  USER_LEAH,
+  USER_UNKNOWN,
+  WEDDINGS,
+  Year,
 } from "./data.types";
 
 export const STATS_2025: Year = {
@@ -66,6 +67,13 @@ export const STATS_2025: Year = {
     [PUZZLES_COMPLETED]: {
       label: PUZZLES_COMPLETED,
       values: [{ value: 3, user: USER_UNKNOWN }],
+    },
+    [SPOTIFY_MINUTES]: {
+      label: SPOTIFY_MINUTES,
+      values: [
+        { value: 24816, user: USER_ADAM },
+        { value: 10477, user: USER_LEAH },
+      ],
     },
     [STEPS]: {
       label: STEPS,

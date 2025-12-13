@@ -6,6 +6,7 @@ export const MILES_DRIVEN = "Miles Driven";
 export const MILES_RAN = "Miles Ran";
 export const PHOTOS_TAKEN = "Photos Taken";
 export const PUZZLES_COMPLETED = "Puzzles Completed";
+export const SPOTIFY_MINUTES = "Minutes of Music";
 export const STEPS = "Steps";
 export const WEDDINGS = "Weddings";
 
@@ -18,6 +19,7 @@ export type StatType =
   | typeof MILES_RAN
   | typeof PHOTOS_TAKEN
   | typeof PUZZLES_COMPLETED
+  | typeof SPOTIFY_MINUTES
   | typeof STEPS
   | typeof WEDDINGS;
 
@@ -30,6 +32,7 @@ export const ALL_STATS: StatType[] = [
   MILES_RAN,
   PHOTOS_TAKEN,
   PUZZLES_COMPLETED,
+  SPOTIFY_MINUTES,
   STEPS,
   WEDDINGS,
 ];

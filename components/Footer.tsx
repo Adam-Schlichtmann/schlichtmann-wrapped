@@ -38,7 +38,7 @@ export default () => {
         <Text style={style.disclaimer}>
           Statistics are based on events that occurred from January 1st through
           December 1st. Data accuracy is directly proportional to the amount of
-          effort put in to keeping track of it. There is no gaurantee of
+          effort put in to keeping track of it. There is no guarantee of
           accuracy and data is provided as is.
         </Text>
       </View>

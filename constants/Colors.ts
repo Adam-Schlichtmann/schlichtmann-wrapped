@@ -19,7 +19,7 @@ const defaultTheme: Record<"light" | "dark", Theme> = {
     amos: "#6495ED",
     amylynn: "#601f9e",
     background: "#202124",
-    card: "#9AA0A6",
+    card: "#303134",
     darkAccent: "#CEEAD6",
     error: "red",
     leah: "#E0B0FF",

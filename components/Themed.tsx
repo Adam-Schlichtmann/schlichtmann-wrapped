@@ -12,7 +12,7 @@ import {
   StyleSheet,
 } from "react-native";
 
-import Colors from "@/constants/Colors";
+import Colors, { Theme } from "@/constants/Colors";
 import { useColorScheme } from "./useColorScheme";
 
 export type TextProps = DefaultText["props"];
@@ -20,22 +20,13 @@ export type ViewProps = DefaultView["props"];
 
 export type Style = Record<string, ViewStyle | ImageStyle | TextStyle>;
 
+export const useTheme = (): Theme => Colors[useColorScheme()];
+
 export const useStyles = <Object extends Style>(
-  styleFN: (theme: typeof Colors.light) => Object
-) => {
-  return StyleSheet.create(styleFN(Colors[useColorScheme() ?? "light"]));
-};
+  styleFN: (theme: Theme) => Object
+) => StyleSheet.create(styleFN(useTheme()));
 
-export const useTheme = () => {
-  return Colors[useColorScheme() ?? "light"];
-};
-
-export const useThemeColor = (
-  colorName: keyof typeof Colors.light & keyof typeof Colors.dark
-) => {
-  const theme = useColorScheme() ?? "light";
-  return Colors[theme][colorName];
-};
+export const useThemeColor = (colorName: keyof Theme) => useTheme()[colorName];
 
 export const Text = (props: TextProps) => {
   const { style, ...otherProps } = props;

@@ -80,6 +80,10 @@ export default function Year() {
       <BarChart
         data={data}
         roundedTop
+        xAxisColor={theme.text}
+        xAxisLabelTextStyle={{ color: theme.text }}
+        yAxisColor={theme.text}
+        yAxisTextStyle={{ color: theme.text }}
         yAxisLabelContainerStyle={{ marginHorizontal: 4, width: 50 }}
         formatYLabel={(l) => {
           const numericLabel = Number(l);

@@ -73,6 +73,7 @@ type Props = {
 export default ({ stat, year }: Props) => {
   const style = useStyles(styles);
   const theme = useTheme();
+  const router = useRouter();
 
   if (!STATS_BY_YEAR[year] || !STATS_BY_YEAR[year]?.stats[stat]) return null;
 
@@ -89,7 +90,6 @@ export default ({ stat, year }: Props) => {
   const showChart =
     data.values.filter((v) => v.user !== USER_UNKNOWN).length > 0;
 
-  const router = useRouter();
   const onPress = () => router.navigate(`/stat/${stat}`);
   return (
     <Pressable
@@ -123,6 +123,7 @@ export default ({ stat, year }: Props) => {
               color: getColorForUser(v.user, theme),
             }))}
             donut
+            innerCircleColor={theme.card}
             showText
             textColor="black"
             textSize={16}

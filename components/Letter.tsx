@@ -30,6 +30,7 @@ const styles = (theme: Theme): Styles => ({
  * https://github.com/iamacup/react-native-markdown-display/?tab=readme-ov-file#rules-and-styles
  */
 type MDStyles = {
+  body: TextStyle;
   heading1: TextStyle;
   heading2: TextStyle;
   heading3: TextStyle;
@@ -41,6 +42,9 @@ type MDStyles = {
 };
 
 const markdownStyles = (theme: Theme): MDStyles => ({
+  body: {
+    color: theme.text,
+  },
   heading1: {
     color: theme.darkAccent,
     fontSize: 32,

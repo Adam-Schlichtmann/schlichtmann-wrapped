@@ -18,6 +18,6 @@ export default (user: UserType, theme: Theme): string => {
     case USER_LEAH:
       return theme.leah;
     default:
-      return "gray";
+      return theme.general;
   }
 };

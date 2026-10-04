@@ -1,8 +1,3 @@
-/**
- * Learn more about Light and Dark modes:
- * https://docs.expo.io/guides/color-schemes/
- */
-
 import {
   Text as DefaultText,
   View as DefaultView,
@@ -13,6 +8,7 @@ import {
 } from "react-native";
 
 import Colors, { Theme } from "@/constants/Colors";
+import { SANS } from "@/constants/Fonts";
 import { useColorScheme } from "./useColorScheme";
 
 export type TextProps = DefaultText["props"];
@@ -23,7 +19,7 @@ export type Style = Record<string, ViewStyle | ImageStyle | TextStyle>;
 export const useTheme = (): Theme => Colors[useColorScheme()];
 
 export const useStyles = <Object extends Style>(
-  styleFN: (theme: Theme) => Object
+  styleFN: (theme: Theme) => Object,
 ) => StyleSheet.create(styleFN(useTheme()));
 
 export const useThemeColor = (colorName: keyof Theme) => useTheme()[colorName];
@@ -32,7 +28,9 @@ export const Text = (props: TextProps) => {
   const { style, ...otherProps } = props;
   const color = useThemeColor("text");
 
-  return <DefaultText style={[{ color }, style]} {...otherProps} />;
+  return (
+    <DefaultText style={[{ color, fontFamily: SANS }, style]} {...otherProps} />
+  );
 };
 
 export const View = (props: ViewProps) => {

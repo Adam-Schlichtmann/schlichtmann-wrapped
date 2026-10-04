@@ -23,7 +23,7 @@ const styles = (theme: Theme): Styles => ({
     paddingVertical: 15,
   },
   linkText: {
-    color: theme.darkAccent,
+    color: theme.accent,
     fontSize: 14,
   },
   title: {

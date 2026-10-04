@@ -2,7 +2,7 @@ import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from "expo-router";
 
 import { useColorScheme } from "@/components/useColorScheme";
 import { useTheme } from "@/components/Themed";
-import Footer from "@/components/Footer";
+import SiteHeader from "@/components/SiteHeader";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -21,25 +21,13 @@ export default function RootLayout() {
         colors: { ...navigationTheme.colors, background: theme.background },
       }}
     >
-      <Stack>
+      <SiteHeader />
+      <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen
           name="index"
-          options={{
-            headerTitleAlign: "center",
-            title: "All Years",
-            headerBackVisible: false,
-          }}
-        />
-        <Stack.Screen
-          name="[year]"
-          options={{ headerTitleAlign: "center", headerBackVisible: false }}
-        />
-        <Stack.Screen
-          name="stat/[stat]"
-          options={{ headerTitleAlign: "center", headerBackVisible: false }}
+          options={{ title: "Schlichtmann Wrapped" }}
         />
       </Stack>
-      <Footer />
     </ThemeProvider>
   );
 }

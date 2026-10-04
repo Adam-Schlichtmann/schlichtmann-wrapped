@@ -1,55 +1,65 @@
-import { FlatList, ViewStyle } from "react-native";
+import { TextStyle, View, ViewStyle } from "react-native";
+import { Redirect, Stack, useLocalSearchParams } from "expo-router";
 
-import {
-  useFocusEffect,
-  useLocalSearchParams,
-  useNavigation,
-  useRouter,
-} from "expo-router";
-import { useStyles, View } from "@/components/Themed";
-import STATS_BY_YEAR, { ALL_STATS } from "../data";
-import StatCard from "@/components/StatCard";
-import { Theme } from "@/constants/Colors";
-import { useCallback } from "react";
 import Letter from "@/components/Letter";
+import Page from "@/components/Page";
+import SectionHeading from "@/components/SectionHeading";
+import StatTile from "@/components/StatTile";
+import { Text, useStyles } from "@/components/Themed";
+import TileGrid from "@/components/TileGrid";
+import { Theme } from "@/constants/Colors";
+import STATS_BY_YEAR, { ALL_STATS } from "@/data";
+import { getTotal, isYear } from "@/data/selectors";
 
 export const generateStaticParams = (): Promise<{ year: string }[]> =>
   Promise.resolve(Object.keys(STATS_BY_YEAR).map((key) => ({ year: key })));
 
 type Styles = {
-  page: ViewStyle;
+  empty: ViewStyle;
+  emptyText: TextStyle;
 };
 
 const styles = (theme: Theme): Styles => ({
-  page: {
-    backgroundColor: theme.background,
-    flex: 1,
+  empty: {
+    backgroundColor: theme.surfaceMuted,
+    borderRadius: 12,
+    padding: 24,
+  },
+  emptyText: {
+    color: theme.textMuted,
+    fontSize: 15,
   },
 });
 
 export default function Year() {
   const { year } = useLocalSearchParams<{ year: string }>();
   const style = useStyles(styles);
-  const router = useRouter();
-  const navigation = useNavigation();
 
-  useFocusEffect(
-    useCallback(() => {
-      if (!Object.keys(STATS_BY_YEAR).includes(year)) {
-        router.navigate("/");
-      }
-      navigation.setOptions({ title: `${year} Stats` });
-    }, [])
-  );
+  if (!isYear(year)) return <Redirect href="/" />;
+
+  const stats = ALL_STATS.filter((stat) => getTotal(year, stat) > 0);
 
   return (
-    <View style={style.page}>
-      <FlatList
-        ListHeaderComponent={<Letter year={year} />}
-        data={ALL_STATS}
-        contentContainerStyle={{ alignSelf: "center", paddingHorizontal: 16 }}
-        renderItem={({ item }) => <StatCard stat={item} year={year} />}
+    <Page eyebrow="Our year in review" title={year}>
+      <Stack.Screen options={{ title: `${year} · Schlichtmann Wrapped` }} />
+      <Letter year={year} />
+      <SectionHeading
+        title="By the numbers"
+        subtitle="Select a stat to see how it compares across years."
       />
-    </View>
+      {stats.length ? (
+        <TileGrid>
+          {stats.map((stat) => (
+            <StatTile key={stat} stat={stat} year={year} />
+          ))}
+        </TileGrid>
+      ) : (
+        <View style={style.empty}>
+          <Text style={style.emptyText}>
+            We're still counting. The {year} stats will be added at Christmas.
+          </Text>
+        </View>
+      )}
+    </Page>
   );
 }

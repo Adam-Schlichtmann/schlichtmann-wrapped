@@ -1,99 +1,198 @@
-import { ViewStyle } from "react-native";
+import { ScrollView, TextStyle, View, ViewStyle } from "react-native";
+import { Redirect, Stack, useLocalSearchParams } from "expo-router";
 
-import {
-  useFocusEffect,
-  useLocalSearchParams,
-  useNavigation,
-  useRouter,
-} from "expo-router";
-import { useStyles, useTheme, View } from "@/components/Themed";
-import STATS_BY_YEAR, { ALL_STATS, StatType } from "../../data";
+import ColumnChart, { ColumnGroup } from "@/components/charts/ColumnChart";
+import Legend from "@/components/charts/Legend";
+import HoverLink from "@/components/HoverLink";
+import Page from "@/components/Page";
+import SectionHeading from "@/components/SectionHeading";
+import { Text, useStyles, useTheme } from "@/components/Themed";
 import { Theme } from "@/constants/Colors";
-import { BarChart, BarChartPropsType } from "react-native-gifted-charts";
-import { useCallback, useMemo } from "react";
+import { formatFull } from "@/constants/formatNumber";
 import getColorForUser from "@/constants/getColorForUser";
-import ColorKey from "@/components/ColorKey";
-import formatNumber from "@/constants/formatNumber";
+import { ALL_STATS, StatType, USER_UNKNOWN } from "@/data";
+import {
+  getChange,
+  getTotal,
+  getUsersForStat,
+  getValues,
+  YEARS,
+} from "@/data/selectors";
 
 export const generateStaticParams = (): Promise<{ stat: string }[]> =>
   Promise.resolve(ALL_STATS.map((s) => ({ stat: s })));
 
 type Styles = {
-  page: ViewStyle;
+  card: ViewStyle;
+  cell: TextStyle;
+  chip: ViewStyle;
+  chipHovered: ViewStyle;
+  chipText: TextStyle;
+  chips: ViewStyle;
+  headerCell: TextStyle;
+  row: ViewStyle;
+  section: ViewStyle;
+  yearCell: TextStyle;
 };
 
 const styles = (theme: Theme): Styles => ({
-  page: {
-    backgroundColor: theme.background,
+  card: {
+    backgroundColor: theme.surface,
+    borderColor: theme.border,
+    borderRadius: 16,
+    borderWidth: 1,
+    gap: 28,
+    padding: 24,
+  },
+  cell: {
     flex: 1,
-    justifyContent: "center",
-    alignSelf: "center",
+    fontSize: 15,
+    fontVariant: ["tabular-nums"],
+    textAlign: "right",
+  },
+  chip: {
+    backgroundColor: theme.surface,
+    borderColor: theme.border,
+    borderRadius: 999,
+    borderWidth: 1,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+  },
+  chipHovered: {
+    borderColor: theme.accent,
+  },
+  chipText: {
+    fontSize: 14,
+  },
+  chips: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+  },
+  headerCell: {
+    color: theme.textMuted,
+    flex: 1,
+    fontSize: 13,
+    fontWeight: "500",
+    textAlign: "right",
+  },
+  row: {
+    minWidth: "100%",
+    borderBottomColor: theme.border,
+    borderBottomWidth: 1,
+    flexDirection: "row",
+    gap: 12,
+    paddingVertical: 12,
+  },
+  section: {
+    marginTop: 56,
+  },
+  yearCell: {
+    flex: 1,
+    fontSize: 15,
+    fontVariant: ["tabular-nums"],
+    fontWeight: "500",
   },
 });
 
-export default function Year() {
+const formatChange = (change: number | undefined) =>
+  change === undefined
+    ? "—"
+    : `${change >= 0 ? "+" : "−"}${Math.abs(Math.round(change * 100))}%`;
+
+export default function Stat() {
   const { stat } = useLocalSearchParams<{ stat: StatType }>();
   const style = useStyles(styles);
   const theme = useTheme();
-  const router = useRouter();
-  const navigation = useNavigation();
-  useFocusEffect(
-    useCallback(() => {
-      if (!ALL_STATS.includes(stat as StatType)) {
-        router.navigate("/");
-      }
-      navigation.setOptions({ title: stat });
-    }, [])
-  );
 
-  const data = useMemo<BarChartPropsType["data"]>(() => {
-    const d: BarChartPropsType["data"] = [];
-    for (const year of Object.keys(STATS_BY_YEAR)) {
-      if (
-        year in STATS_BY_YEAR &&
-        stat in STATS_BY_YEAR[year].stats &&
-        STATS_BY_YEAR[year].stats[stat].values.some((v) => v.value > 0)
-      ) {
-        d.push(
-          ...STATS_BY_YEAR[year].stats[stat]!.values.map((item, i, arr) =>
-            i === 0
-              ? {
-                  label: year,
-                  value: item.value,
-                  spacing: arr.length > 1 ? 2 : undefined,
-                  labelWidth: arr.length > 1 ? 60 : undefined,
-                  frontColor: getColorForUser(item.user, theme),
-                }
-              : {
-                  value: item.value,
-                  frontColor: getColorForUser(item.user, theme),
-                }
-          )
-        );
-      }
-    }
-    return d;
-  }, []);
+  if (!ALL_STATS.includes(stat)) return <Redirect href="/" />;
+
+  const users = getUsersForStat(stat);
+  const years = YEARS.filter((year) => getTotal(year, stat) > 0);
+  const showPeople = users.some((user) => user !== USER_UNKNOWN);
+  const showTotal = users.length > 1;
+
+  const groups: ColumnGroup[] = years.map((year) => ({
+    label: year,
+    columns: getValues(year, stat).map((v) => ({
+      color: getColorForUser(v.user, theme),
+      key: `${year}-${v.user}`,
+      name: v.user,
+      value: v.value,
+    })),
+  }));
 
   return (
-    <View style={style.page}>
-      <BarChart
-        data={data}
-        roundedTop
-        xAxisColor={theme.text}
-        xAxisLabelTextStyle={{ color: theme.text }}
-        yAxisColor={theme.text}
-        yAxisTextStyle={{ color: theme.text }}
-        yAxisLabelContainerStyle={{ marginHorizontal: 4, width: 50 }}
-        formatYLabel={(l) => {
-          const numericLabel = Number(l);
-          if (Number.isNaN(numericLabel)) {
-            return l;
-          }
-          return formatNumber(numericLabel);
-        }}
-      />
-      <ColorKey />
-    </View>
+    <Page eyebrow="Year over year" title={stat}>
+      <Stack.Screen options={{ title: `${stat} · Schlichtmann Wrapped` }} />
+      <View style={style.card}>
+        {showPeople && <Legend users={users} />}
+        <ColumnChart groups={groups} />
+      </View>
+
+      <View style={style.section}>
+        <SectionHeading title="Every year" />
+        <ScrollView horizontal>
+          <View style={{ flexGrow: 1, minWidth: (users.length + 3) * 96 }}>
+            <View style={style.row}>
+              <Text style={[style.headerCell, { textAlign: "left" }]}>
+                Year
+              </Text>
+              {showPeople &&
+                users.map((user) => (
+                  <Text key={user} style={style.headerCell}>
+                    {user}
+                  </Text>
+                ))}
+              {(showTotal || !showPeople) && (
+                <Text style={style.headerCell}>Total</Text>
+              )}
+              <Text style={style.headerCell}>Change</Text>
+            </View>
+            {years.map((year) => {
+              const values = getValues(year, stat);
+              return (
+                <View key={year} style={style.row}>
+                  <Text style={style.yearCell}>{year}</Text>
+                  {showPeople &&
+                    users.map((user) => {
+                      const value = values.find((v) => v.user === user)?.value;
+                      return (
+                        <Text key={user} style={style.cell}>
+                          {value ? formatFull(value) : "—"}
+                        </Text>
+                      );
+                    })}
+                  {(showTotal || !showPeople) && (
+                    <Text style={[style.cell, { fontWeight: "600" }]}>
+                      {formatFull(getTotal(year, stat))}
+                    </Text>
+                  )}
+                  <Text style={[style.cell, { color: theme.textMuted }]}>
+                    {formatChange(getChange(year, stat))}
+                  </Text>
+                </View>
+              );
+            })}
+          </View>
+        </ScrollView>
+      </View>
+
+      <View style={style.section}>
+        <SectionHeading title="More stats" />
+        <View style={style.chips}>
+          {ALL_STATS.filter((s) => s !== stat).map((s) => (
+            <HoverLink
+              key={s}
+              href={`/stat/${s}`}
+              style={style.chip}
+              hoverStyle={style.chipHovered}
+            >
+              <Text style={style.chipText}>{s}</Text>
+            </HoverLink>
+          ))}
+        </View>
+      </View>
+    </Page>
   );
 }

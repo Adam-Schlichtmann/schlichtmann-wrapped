@@ -14,6 +14,8 @@ export type Column = {
 export type ColumnGroup = {
   columns: Column[];
   label: string;
+  /** Used instead of `label` when the groups get too narrow for it. */
+  shortLabel?: string;
 };
 
 type Props = {
@@ -23,6 +25,8 @@ type Props = {
 
 const AXIS_WIDTH = 48;
 const COLUMN_WIDTH = 24;
+const GROUP_GAP = 6;
+const SHORT_LABEL_BELOW = 44;
 const TICK_COUNT = 4;
 
 /** Rounds a raw step up to 1, 2, 2.5 or 5 times a power of ten. */
@@ -32,10 +36,17 @@ const niceStep = (raw: number) => {
   return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 5 ? 5 : 10) * pow;
 };
 
-/** Grouped column chart. Hover (or tap) a column to see its exact value. */
+/**
+ * Grouped column chart. Hover (or tap) a column to see its exact value.
+ * Columns are 24px wide when there's room and shrink to fit when there are
+ * many groups, so the chart never overflows a narrow screen.
+ */
 export default function ColumnChart({ groups, height = 260 }: Props) {
   const theme = useTheme();
   const [active, setActive] = useState<string>();
+  const [plotWidth, setPlotWidth] = useState<number>();
+  const useShortLabels =
+    plotWidth !== undefined && plotWidth / groups.length < SHORT_LABEL_BELOW;
 
   const max = Math.max(...groups.flatMap((g) => g.columns.map((c) => c.value)));
   const step = niceStep(max / TICK_COUNT);
@@ -67,7 +78,10 @@ export default function ColumnChart({ groups, height = 260 }: Props) {
             </Text>
           ))}
         </View>
-        <View style={{ flex: 1 }}>
+        <View
+          style={{ flex: 1 }}
+          onLayout={(e) => setPlotWidth(e.nativeEvent.layout.width)}
+        >
           {ticks.map((tick) => (
             <View
               key={tick}
@@ -91,6 +105,8 @@ export default function ColumnChart({ groups, height = 260 }: Props) {
                   flexDirection: "row",
                   gap: 2,
                   justifyContent: "center",
+                  minWidth: 0,
+                  paddingHorizontal: GROUP_GAP / 2,
                 }}
               >
                 {group.columns.map((column) => {
@@ -101,16 +117,16 @@ export default function ColumnChart({ groups, height = 260 }: Props) {
                       aria-label={`${column.name}, ${group.label}: ${formatFull(column.value)}`}
                       onHoverIn={() => setActive(column.key)}
                       onHoverOut={() => setActive(undefined)}
-                      onPress={() =>
-                        setActive(isActive ? undefined : column.key)
-                      }
+                      onPress={() => setActive(column.key)}
                       style={{
                         backgroundColor: column.color,
                         borderTopLeftRadius: 4,
                         borderTopRightRadius: 4,
+                        flexBasis: 0,
+                        flexGrow: 1,
                         height: Math.max(y(column.value), 2),
+                        maxWidth: COLUMN_WIDTH,
                         opacity: active && !isActive ? 0.45 : 1,
-                        width: COLUMN_WIDTH,
                       }}
                     >
                       {isActive && (
@@ -176,7 +192,9 @@ export default function ColumnChart({ groups, height = 260 }: Props) {
               textAlign: "center",
             }}
           >
-            {group.label}
+            {useShortLabels && group.shortLabel
+              ? group.shortLabel
+              : group.label}
           </Text>
         ))}
       </View>

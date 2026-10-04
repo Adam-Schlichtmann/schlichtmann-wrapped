@@ -8,7 +8,7 @@ import Page from "@/components/Page";
 import SectionHeading from "@/components/SectionHeading";
 import { Text, useStyles, useTheme } from "@/components/Themed";
 import { Theme } from "@/constants/Colors";
-import { formatFull } from "@/constants/formatNumber";
+import { formatChange, formatFull } from "@/constants/formatNumber";
 import getColorForUser from "@/constants/getColorForUser";
 import { ALL_STATS, StatType, USER_UNKNOWN } from "@/data";
 import {
@@ -95,11 +95,6 @@ const styles = (theme: Theme): Styles => ({
   },
 });
 
-const formatChange = (change: number | undefined) =>
-  change === undefined
-    ? "—"
-    : `${change >= 0 ? "+" : "−"}${Math.abs(Math.round(change * 100))}%`;
-
 export default function Stat() {
   const { stat } = useLocalSearchParams<{ stat: StatType }>();
   const style = useStyles(styles);
@@ -114,6 +109,7 @@ export default function Stat() {
 
   const groups: ColumnGroup[] = years.map((year) => ({
     label: year,
+    shortLabel: `’${year.slice(-2)}`,
     columns: getValues(year, stat).map((v) => ({
       color: getColorForUser(v.user, theme),
       key: `${year}-${v.user}`,
@@ -132,7 +128,7 @@ export default function Stat() {
 
       <View style={style.section}>
         <SectionHeading title="Every year" />
-        <ScrollView horizontal>
+        <ScrollView horizontal contentContainerStyle={{ flexGrow: 1 }}>
           <View style={{ flexGrow: 1, minWidth: (users.length + 3) * 96 }}>
             <View style={style.row}>
               <Text style={[style.headerCell, { textAlign: "left" }]}>
@@ -151,6 +147,7 @@ export default function Stat() {
             </View>
             {years.map((year) => {
               const values = getValues(year, stat);
+              const change = getChange(year, stat);
               return (
                 <View key={year} style={style.row}>
                   <Text style={style.yearCell}>{year}</Text>
@@ -169,7 +166,7 @@ export default function Stat() {
                     </Text>
                   )}
                   <Text style={[style.cell, { color: theme.textMuted }]}>
-                    {formatChange(getChange(year, stat))}
+                    {change === undefined ? "—" : formatChange(change)}
                   </Text>
                 </View>
               );

@@ -4,7 +4,7 @@ import HoverLink from "@/components/HoverLink";
 import SplitBar from "@/components/charts/SplitBar";
 import { Text, useStyles, useTheme } from "@/components/Themed";
 import { Theme } from "@/constants/Colors";
-import formatNumber from "@/constants/formatNumber";
+import formatNumber, { formatChange } from "@/constants/formatNumber";
 import getColorForUser from "@/constants/getColorForUser";
 import { StatType, USER_UNKNOWN } from "@/data";
 import { getChange, getTotal, getValues } from "@/data/selectors";
@@ -109,7 +109,7 @@ export default function StatTile({ stat, year }: Props) {
           ? "Not tracked this year"
           : change === undefined
             ? " "
-            : `${change >= 0 ? "▲" : "▼"} ${Math.abs(Math.round(change * 100))}% vs ${Number(year) - 1}`}
+            : `${formatChange(change, "▲ ", "▼ ")} vs ${Number(year) - 1}`}
       </Text>
       {showBreakdown && (
         <View style={style.breakdown}>

@@ -1,4 +1,4 @@
-import { TextStyle, View, ViewStyle } from "react-native";
+import { ScrollView, TextStyle, View, ViewStyle } from "react-native";
 import { Link, usePathname } from "expo-router";
 
 import HoverLink from "@/components/HoverLink";
@@ -13,6 +13,7 @@ type Styles = {
   wordmark: TextStyle;
   wordmarkAccent: TextStyle;
   years: ViewStyle;
+  yearsContent: ViewStyle;
   yearLink: ViewStyle;
   yearLinkActive: ViewStyle;
   yearText: TextStyle;
@@ -50,7 +51,11 @@ const styles = (theme: Theme): Styles => ({
     fontWeight: "400",
   },
   years: {
-    flexDirection: "row",
+    flexGrow: 0,
+    flexShrink: 1,
+    maxWidth: "100%",
+  },
+  yearsContent: {
     gap: 4,
   },
   yearLink: {
@@ -84,8 +89,14 @@ export default function SiteHeader() {
             Schlichtmann <Text style={style.wordmarkAccent}>Wrapped</Text>
           </Text>
         </Link>
-        <View style={style.years}>
-          {YEARS.map((year) => {
+        {/* Newest first, and scrollable once there are too many to fit. */}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={style.years}
+          contentContainerStyle={style.yearsContent}
+        >
+          {[...YEARS].reverse().map((year) => {
             const active = pathname === `/${year}`;
             return (
               <HoverLink
@@ -100,7 +111,7 @@ export default function SiteHeader() {
               </HoverLink>
             );
           })}
-        </View>
+        </ScrollView>
       </View>
     </View>
   );
